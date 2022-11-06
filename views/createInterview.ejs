@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create interview</title>
+    <style>
+        .participants-list {
+         overflow-y: scroll;
+         height: 40vh;   
+
+        }
+        .participant-container{
+            display:flex;
+            /* justify-content: center; */
+            align-items: center;
+        }
+        .error-message{
+            background-color: red;
+            font-weight: bold;
+            color: white;
+        }
+        
+    </style>
+</head>
+<body>
+    <%if(isError){%>
+    <div class="error-message"><%=errorMessage%></div>
+    <%}%>
+    <div>
+        <form action="/createInterview" method="post" enctype="application/x-www-form-urlencoded">
+            <label for="start-time">start-time</label>
+            <input type="datetime-local" name="start-time" id="start-time"  required>
+            <label for="end-time" >end-time</label>
+            <input type="datetime-local" name="end-time" id="end-time"  required>
+
+            <div class = "participant-container">
+            <div class="participants-list">
+                <ul>
+                    <% participants.forEach(el => {%>
+                    <% if(el.role=="interviewer"){ %>
+                        <label for="participants"><%=el.name%></label>
+                        <input type="checkbox" id="participants" name="participants" value="<%=el.id%>" />
+                        <br>
+                        <% }}) %>
+                    </ul>
+                </div>
+                <div class="participants-list">
+                    <ul>
+                        <% participants.forEach(el => {%>
+                            <% if(el.role=="interviewee"){ %>
+                    <label for="participants"><%=el.name%></label>
+                    <input type="checkbox" name="participants" value="<%=el.id%>" />
+                    <br>
+                    <% }}) %>
+                </ul>
+            </div>
+                <input type="submit">
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>
